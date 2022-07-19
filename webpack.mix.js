@@ -11,6 +11,7 @@ const mix = require('laravel-mix');
  |
  */
 const path = require("path");
+const CompressionPlugin = require("compression-webpack-plugin");
 const JavaScriptObfuscator = require('webpack-obfuscator');
 //获取决定路径
 function resolve(dir) {
@@ -18,8 +19,17 @@ function resolve(dir) {
 }
 
 const env = process.env.NODE_ENV;
-var plugins = [];
-if (env === 'production') {
+var plugins = [
+    new CompressionPlugin({
+        algorithm: 'gzip', //'brotliCompress'
+        test: /\.js$|\.html$|\.css/, // + $|\.svg$|\.png$|\.jpg
+        threshold: 10240, //对超过10k的数据压缩
+        deleteOriginalAssets: false, //不删除原⽂件
+        minRatio: 0.8
+    }),
+];
+const isObfuscator = false
+if (env === 'production' && isObfuscator === true) {
     plugins.push(
         new JavaScriptObfuscator({
             rotateUnicodeArray: true, // 必须为true
