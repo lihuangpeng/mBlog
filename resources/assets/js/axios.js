@@ -1,7 +1,7 @@
 import axios from "axios";
 import qs from "qs";
 
-axios.defaults.baseURL = 'http://mblog.com/api/';
+axios.defaults.baseURL = 'http://mblog.com/blog/';
 axios.defaults.withCredentials = true; //  在跨域中允许携带凭证(cookie等)
 axios.defaults.headers['Content-Type'] = "application/x-www-form-urlencoded";
 axios.defaults.timeout = 3000;
