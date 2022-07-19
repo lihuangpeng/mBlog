@@ -1,7 +1,12 @@
 import axios from "axios";
 import qs from "qs";
 
-axios.defaults.baseURL = 'http://mblog.com/blog/';
+const env = process.env.NODE_ENV;
+if(env === 'production'){
+    axios.defaults.baseURL = 'http://ithp.top/blog/';
+}else{
+    axios.defaults.baseURL = 'http://mblog.com/blog/';
+}
 axios.defaults.withCredentials = true; //  在跨域中允许携带凭证(cookie等)
 axios.defaults.headers['Content-Type'] = "application/x-www-form-urlencoded";
 axios.defaults.timeout = 3000;
