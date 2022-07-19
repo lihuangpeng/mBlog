@@ -17,7 +17,7 @@ class UserController extends Controller
             $validator = Validator::make($params,[
                 'code' => 'required'
             ]);
-            $response = response('<script type="text/javascript">window.location.href ="http://mblog.com"</script>');
+            $response = response('<script type="text/javascript">window.location.href ="http://ithp.top"</script>');
             if(!$validator->fails()){
                 $response->cookie('msdk_code',$params['code'],0,null,null,null,false);
             }
