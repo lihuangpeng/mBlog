@@ -1,0 +1,89 @@
+version: '3'
+
+networks:
+  - mBlog
+
+volumes:
+  mysql-data:/var/lib/docker/mysql/data
+  mysql-conf:/var/lib/docker/mysql/etc
+  php-conf:/var/lib/docker/php-fpm/etc
+  php-log:/var/lib/docker/php-log/log
+  project:/var/www
+  nginx-conf:/var/lib/docker/nginx/conf
+  nginx-log:/var/lib/docker/nginx/log
+  redis-conf:/var/lib/docker/redis/etc
+  redis-data:/var/lib/docker/redis/data
+  rabbitmq-data-log:/var/lib/docker/rabbitmq/var
+  rabbitmq-conf:/var/lib/docker/rabbitmq/etc
+services:
+  mysql:
+    container_name:mysql
+    images:lihuangpeng/mysql:v1
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/usr/local/mysql/data
+      - mysql-conf:/usr/local/mysql/etc
+    restart:always
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_PROJECT_USER=lhp
+      - MYSQL_PROJECT_PASSWORD=1998lihuangpeng1
+
+  php-fpm:
+    container_name:php-fpm
+    images:lihuangpeng/php-fpm:v1
+    ports:
+      - "9000:9000"
+    volumes:
+      - php-conf:/usr/local/php74/etc
+      - php-log:/usr/local/php74/var/log
+      - project:/var/www
+    restart:always
+
+  nginx:
+    container_name:nginx
+    images:lihuangpeng/nginx:v1
+    restart:always
+    ports:
+      - "80:80"
+    volumes:
+      - nginx-conf:/usr/local/nginx/conf
+      - nginx-log:/usr/local/nginx/logs
+      - project:/var/www
+    link:
+      - "php-fpm:php"
+    depends_on:
+      - php-fpm
+
+  redis:
+    container_name:redis
+    images:lihuangpeng/redis:v1
+    restart:always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-conf:/opt/app/redis/etc
+      - redis-data:/opt/app/redis/data
+  memcached:
+    container_name:memcached,
+    images:lihuangpeng/memcached:v1
+    restart:always
+    ports:
+      - "11211:11211"
+    environment:
+      - MEMCACHE_MEMORY=256M
+  rabbitmq:
+    container_name:rabbitmq,
+    images:lihuangpeng/rabbitmq:v1
+    restart:always
+    ports:
+      - "15627:15627"
+      - "5627:5627"
+      - "25627:25627"
+    environment:
+      - RABBITMQ_USER=lhp
+      - RABBIMQ_PASSWORD=1998lihuangpeng1
+    volumes:
+      - rabbitmq-data-log:/usr/local/rabbitmq/var
+      - rabbitmq-conf:/usr/local/rabbitmq/etc
