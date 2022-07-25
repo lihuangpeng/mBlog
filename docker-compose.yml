@@ -18,7 +18,7 @@ volumes:
 services:
   mysql:
     container_name:mysql
-    images:lihuangpeng/mysql:v1
+    image:lihuangpeng/mysql:v1
     ports:
       - "3306:3306"
     volumes:
@@ -32,7 +32,7 @@ services:
 
   php-fpm:
     container_name:php-fpm
-    images:lihuangpeng/php-fpm:v1
+    image:lihuangpeng/php-fpm:v1
     ports:
       - "9000:9000"
     volumes:
@@ -43,7 +43,7 @@ services:
 
   nginx:
     container_name:nginx
-    images:lihuangpeng/nginx:v1
+    image:lihuangpeng/nginx:v1
     restart:always
     ports:
       - "80:80"
@@ -58,7 +58,7 @@ services:
 
   redis:
     container_name:redis
-    images:lihuangpeng/redis:v1
+    image:lihuangpeng/redis:v1
     restart:always
     ports:
       - "6379:6379"
@@ -67,7 +67,7 @@ services:
       - redis-data:/opt/app/redis/data
   memcached:
     container_name:memcached,
-    images:lihuangpeng/memcached:v1
+    image:lihuangpeng/memcached:v1
     restart:always
     ports:
       - "11211:11211"
@@ -75,7 +75,7 @@ services:
       - MEMCACHE_MEMORY=256M
   rabbitmq:
     container_name:rabbitmq,
-    images:lihuangpeng/rabbitmq:v1
+    image:lihuangpeng/rabbitmq:v1
     restart:always
     ports:
       - "15627:15627"
