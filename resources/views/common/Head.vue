@@ -166,7 +166,7 @@
                             this.bindMSdk();
                             window.localStorage.removeItem('authorization');
                             setTimeout(function () {
-                                window.location.href = "http://mblog.com";
+                                window.location.reload();
                             },1000);
                         }
                     }).catch(()=>{
