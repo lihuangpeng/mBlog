@@ -1,16 +1,16 @@
 <template>
     <section>
         <el-card>
-            <el-page-header @back="goBack" content="新建视频" style="margin-bottom: 15px;">
+            <el-page-header @back="goBack" content="新建文章" style="margin-bottom: 15px;">
             </el-page-header>
             <el-form ref="form" :model="form" label-width="100px">
-                <el-form-item label="视频标题：">
+                <el-form-item label="文章标题：">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
-                <el-form-item label="视频类型：">
+                <el-form-item label="文章类型：">
                     <el-cascader :options="options" v-model="form.type" clearable></el-cascader>
                 </el-form-item>
-                <el-form-item label="视频标签：">
+                <el-form-item label="文章标签：">
                     <el-select  v-model="form.tags">
                         <el-option
                                 v-for="item in [{value:1,label:'1faaga'}]"
@@ -20,29 +20,16 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="上传视频：">
-                    <el-upload
-                            class="upload-demo"
-                            action="https://jsonplaceholder.typicode.com/posts/">
-                        <el-button size="small" type="primary">点击上传</el-button>
-                    </el-upload>
-                </el-form-item>
-                <el-form-item label="视频描述：">
+                <el-form-item label="文章描述：">
                     <el-input type="textarea" v-model="form.desc"></el-input>
                 </el-form-item>
                 <el-form-item label="图片：">
-                    <el-upload
-                            class="upload-demo"
-                            drag
-                            action="https://jsonplaceholder.typicode.com/posts/">
-                        <i class="el-icon-upload"></i>
-                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                    </el-upload>
+                    <UploadFile filename="posts_img" type="image"></UploadFile>
                 </el-form-item>
-                <el-form-item label="视频笔记：">
+                <el-form-item label="文章内容：">
                 </el-form-item>
                 <mavon-editor v-model="form.content" @change="contentChange"  :externalLink="externalLink"/>
-                <el-form-item label="是否vip视频">
+                <el-form-item label="是否vip文章">
                     <el-switch v-model="form.is_vip"></el-switch>
                 </el-form-item>
 
@@ -56,8 +43,12 @@
 
 <script>
     import {marked} from "marked";
+    import UploadFile from "@Components/UploadFile.vue";
     export default{
         name: "CreatePosts",
+        components:{
+            UploadFile
+        },
         data: function () {
             return {
                 externalLink: false,

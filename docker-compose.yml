@@ -41,6 +41,7 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - /var/lib/docker/nginx/conf:/usr/local/nginx/conf
       - /var/lib/docker/nginx/log:/usr/local/nginx/logs
