@@ -74,7 +74,6 @@ class MSdkService extends UserService
             }
             return $this->returnJson(400,'用户登录失败');
         }catch (\Throwable $throwable){
-            var_dump($throwable->getMessage());
             return $this->returnJson(500,$throwable->getMessage(),$throwable->getTraceAsString());
         }
     }
