@@ -14,8 +14,8 @@ class MSdkService extends UserService
     ];
     protected $access_token;
 
-    const REQUEST_ACCESS_TOKEN_URL = 'http://ithp.top/api/user/getAccessToken';
-    const REQUEST_USER_INFO_URL = 'http://ithp.top/api/user/getUserInfo';
+    const REQUEST_ACCESS_TOKEN_URL = 'https://ithp.top/api/user/getAccessToken';
+    const REQUEST_USER_INFO_URL = 'https://ithp.top/api/user/getUserInfo';
 
     protected function getAccessToken($code)
     {
