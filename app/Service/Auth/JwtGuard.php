@@ -32,7 +32,7 @@ class JwtGuard implements Guard
                 $uid = $jwtObject->getAud();
                 if ($this->provider instanceof EloquentUserProvider) {
                     $model = $this->provider->createModel();
-                    $user = $model->setTable('user_info_' . getHash($uid))->newQuery()->where('uid',$uid)->first();
+                    $user = $model->setTable('user_info_' . getHash($uid))->where('uid',$uid)->first();
                 }
             }
         }

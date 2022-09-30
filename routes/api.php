@@ -22,6 +22,14 @@ Route::namespace('\\App\\Http\\Api\\')->group(function (){
         Route::match(['post','get'],'sdkLogin','UserController@sdkLogin');
         Route::post('refreshToken','UserController@refreshToken');
     });
-    Route::post('posts/index','PostsController@index')->middleware('auth:api');
+    Route::prefix('posts/')->group(function (){
+        Route::get('index','PostsController@index');
+        Route::post('uploadCallback','PostsController@uploadCallback')->middleware('auth:api');
+    });
+    Route::prefix('ali/')->group(function(){
+        Route::post('getAssumeRole','UserController@getAssumeRole')->middleware('auth:api');
+    });
+    Route::prefix('video/')->group(function (){
+        Route::post('preview','VideoController@preview');
+    });
 });
-

@@ -86,8 +86,8 @@ mix.js('resources/app.js', 'public/js').vue()
             '@': resolve('/resources'),
             '@Components': resolve('/resources/components'),
             '@Assets': resolve('/resources/assets'),
-            '@Views': resolve('/resources/views')
+            '@Views': resolve('/resources/home')
         }
     },
-    plugins: plugins
+    plugins: plugins,
 });

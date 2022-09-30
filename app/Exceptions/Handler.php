@@ -14,6 +14,7 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         //
+        \Illuminate\Auth\AuthenticationException::class,
     ];
 
     /**
@@ -34,8 +35,13 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+        //终止laravel默认异常处理
         $this->reportable(function (Throwable $e) {
-            //
+
+        })->stop();
+
+        $this->renderable(function (Throwable $e){
+
         });
     }
 }

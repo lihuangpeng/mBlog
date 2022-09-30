@@ -26,7 +26,8 @@ import {
     Select,
     Option,
     Skeleton,
-    SkeletonItem
+    SkeletonItem,
+    Progress,
 } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
@@ -56,6 +57,7 @@ Vue.use(Select);
 Vue.use(Option);
 Vue.use(Skeleton);
 Vue.use(SkeletonItem);
+Vue.use(Progress);
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message;

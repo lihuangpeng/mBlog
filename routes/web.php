@@ -17,4 +17,11 @@ use Illuminate\Support\Facades\Route;
  */
 Route::namespace('\\App\\Http\\Admin\\')->group(function (){
     Route::get('/','IndexController@index');
+
+    Route::prefix('index')->group(function (){
+        Route::get('/','IndexController@index');
+        Route::get('/welcome','IndexController@welcome');
+    });
+
+
 });

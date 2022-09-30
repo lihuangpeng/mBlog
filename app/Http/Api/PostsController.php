@@ -2,10 +2,16 @@
 
 namespace App\Http\Api;
 
+use Illuminate\Contracts\Cache\Factory;
+
 class PostsController extends Controller
 {
-    public function index()
+
+    //契约
+    public function index(Factory $cache)
     {
-        var_dump(request()->user());
+        var_dump($cache->set('test',100,1));
+        var_dump($cache->get('test'));
+//        var_dump(request()->user());
     }
 }

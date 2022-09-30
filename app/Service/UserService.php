@@ -3,8 +3,6 @@
 namespace App\Service;
 
 use App\Models\User as UserModel;
-use App\Models\UserRegister;
-use Illuminate\Support\Facades\DB;
 
 class UserService extends BaseService
 {

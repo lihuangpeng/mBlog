@@ -1,57 +1,44 @@
 <?php
 
-namespace App\Service\OssClient;
+namespace App\OSS;
 
-class AliyunOssClient extends Driver
+use OSS\OssClient;
+
+class AliyunOssClient implements OssInterface
 {
     protected $config;
+    protected $client;
 
-    public function getObject($params)
+    public function __construct($config)
     {
-        $this->getRequestQuery('GetObject',$params);
-        
+        $this->config = $config;
+        $this->client = new OssClient($this->config['accessKeyId'], $this->config['accessKeySecret'], $this->config['endpoint']);
     }
 
-    protected function getRequestQuery($action, $params): String
+    public function getObjectMeta($object)
     {
-        $query = call_user_func_array([$this, 'get' . $action . 'Query'], [$params]);
-        $query['SignatureNonce'] = md5(uniqid(mt_rand(10000, 99999), true));
-        $query['Action'] = $action;
-        $query['AccessKeyId'] = $this->config['access_key'];
-        date_default_timezone_set('UTC');
-        $query['Timestamp'] = date('Y-m-d\TH:i:s\Z');
-        date_default_timezone_set('Asia/Shanghai');
-        $signature = $this->getSignature($query, $query_str);
-        return 'Signature=' . $signature . '&' . $query_str;
+        $objectMeta = $this->client->getSimplifiedObjectMeta($this->config['bucket'], $object);
+        return $objectMeta;
     }
 
-    protected function getSignature($params, &$query_str)
+    public function getObject($object, $local_file = '')
     {
-        unset($params['Signature']);
-        ksort($params);
-        $str = '';
-        foreach ($params as $key => $param) {
-            $str .= $this->specialUrlEncode($key) . '=' . $this->specialUrlEncode($param) . '&';
+        $options = [OssClient::OSS_HEADERS => [OssClient::OSS_ACCEPT_ENCODING => 'gzip']];
+        if ($local_file) {
+            $options[OssClient::OSS_FILE_DOWNLOAD] = $local_file;
         }
-        $query_str = $str = rtrim($str, '&');
-        $str = 'GET&' . $this->specialUrlEncode('/') . "&" . $this->specialUrlEncode($str);
-        $signature = hash_hmac('sha1', $str, $this->config['secret_key'] . '&', true);
-        $signature = $this->specialUrlEncode(base64_encode($signature));
-        return $signature;
+        $content = $this->client->getObject($this->config['bucket'], $object, $options);
+        if ($local_file) {
+            return true;
+        } else {
+            return $content;
+        }
     }
 
-    protected function specialUrlEncode(String $value): String
+    public function getSignUrl($object,$timeout = 1800)
     {
-        return str_replace("%7E", "~", str_replace('*', '%2A', str_replace('+', "%20", urlencode($value))));
+        $sign_url = $this->client->signUrl($this->config['bucket'], $object,$timeout);
+        return $sign_url;
     }
 
-    protected function getGetObjectQuery($sms_info)
-    {
-        return [
-            'PhoneNumbers' => $sms_info['phone'],
-            'SignName' => $sms_info['sign_name'],
-            'TemplateCode' => $sms_info['template_code'],
-            'TemplateParam' => json_encode($sms_info['template_params'])
-        ];
-    }
 }

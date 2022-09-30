@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\OssClient;
+namespace App\OSS;
 
-abstract class Driver
+interface OssInterface
 {
-
+    public function getObject($params);
 }
