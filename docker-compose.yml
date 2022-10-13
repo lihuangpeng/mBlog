@@ -23,6 +23,8 @@ services:
   php-fpm:
     container_name: php-fpm
     image: lihuangpeng/php-fpm:v1
+    cap_add:
+      - SYS_PTRACE
     networks:
       - mBlog
     ports:
